@@ -1,13 +1,12 @@
 package WinningStrategy;
 
-import Board.Board;
-import Utils.ChessBoardPrinter;
+import Board.IBoard;
 import edu.uj.po.interfaces.Color;
 import MoveValidator.StandardValidatorFactory;
 import Board.MovesObtainer;
 
 public class CheckMateWinning implements WinningStrategy{
-    private Color winningColor;
+    private final Color winningColor;
 
     public CheckMateWinning(Color color)
     {
@@ -15,11 +14,11 @@ public class CheckMateWinning implements WinningStrategy{
     }
 
     @Override
-    public boolean CheckForWin(Board board) {
+    public boolean checkForWin(IBoard board) {
         Judge judge = new Judge(board);
         MovesObtainer movesObtainer = new MovesObtainer(board, new StandardValidatorFactory(board));
         Color oppositeColor = winningColor == Color.WHITE ? Color.BLACK : Color.WHITE;
 
-        return movesObtainer.GetMovesByColor(oppositeColor).isEmpty() && judge.IsColorUnderCheck(oppositeColor);
+        return movesObtainer.getMovesByColor(oppositeColor).isEmpty() && judge.isColorUnderCheck(oppositeColor);
     }
 }

@@ -1,6 +1,6 @@
 package Game;
 
-import Board.Board;
+import Board.IBoard;
 import Board.MovesObtainer;
 import Move.Command;
 import Move.MoveCommand;
@@ -11,24 +11,23 @@ import edu.uj.po.interfaces.*;
 import java.util.List;
 
 public class GameController {
-    private Board gameBoard;
+    private final IBoard gameBoard;
 
 
-    public GameController(Board board)
+    public GameController(IBoard board)
     {
         this.gameBoard = board;
     }
 
-    public Move GetWinningMove(Color color, WinningStrategy winCondition)
+    public Move getWinningMove(Color color, WinningStrategy winCondition)
     {
-        Color firstColor = color;
-        List<Move> possibleMoves = new MovesObtainer(gameBoard, new StandardValidatorFactory(gameBoard)).GetMovesByColor(firstColor);
+        List<Move> possibleMoves = new MovesObtainer(gameBoard, new StandardValidatorFactory(gameBoard)).getMovesByColor(color);
 
         for(Move move : possibleMoves)
         {
                 Command moveCommand = new MoveCommand(gameBoard, move);
                 moveCommand.execute();
-                if(winCondition.CheckForWin(gameBoard))
+                if(winCondition.checkForWin(gameBoard))
                 {
                     return move;
                 }

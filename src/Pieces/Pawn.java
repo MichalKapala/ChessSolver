@@ -1,7 +1,6 @@
 package Pieces;
 
-import MoveValidator.MoveValidator;
-import MovesGenerator.MovesGeneratorImpl;
+import MovesGenerator.MovesGenerator;
 import edu.uj.po.interfaces.Color;
 import edu.uj.po.interfaces.Move;
 import edu.uj.po.interfaces.Position;
@@ -16,9 +15,9 @@ public class Pawn extends BasePiece{
 
 
     @Override
-    public List<Move> GetLegalMoves(ValidatorFactory validator) {
-        List<Move> allMoves = MovesGeneratorImpl.GeneratePawnMoves(currentPosition, pieceColor);
-        allMoves = allMoves.stream().filter(validator.GetValidator(this)::validateMove).collect(Collectors.toList());
+    public List<Move> getLegalMoves(ValidatorFactory validator) {
+        List<Move> allMoves = MovesGenerator.generatePawnMoves(currentPosition, pieceColor);
+        allMoves = allMoves.stream().filter(validator.getValidator(this)::validateMove).collect(Collectors.toList());
 
         return allMoves;
     }

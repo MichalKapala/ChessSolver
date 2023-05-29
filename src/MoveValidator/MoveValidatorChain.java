@@ -1,13 +1,13 @@
 package MoveValidator;
 
 import edu.uj.po.interfaces.Move;
-import Board.Board;
+import Board.IBoard;
 
 public abstract class MoveValidatorChain implements MoveValidator {
     protected MoveValidator nextValidator;
-    protected Board board;
+    protected IBoard board;
 
-    public MoveValidatorChain(MoveValidator nextValidator, Board board) {
+    public MoveValidatorChain(MoveValidator nextValidator, IBoard board) {
         this.nextValidator = nextValidator;
         this.board = board;
     }

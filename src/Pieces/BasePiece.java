@@ -1,11 +1,11 @@
 package Pieces;
 
-import MoveValidator.MoveValidator;
+import MoveValidator.ValidatorFactory;
 import edu.uj.po.interfaces.Color;
 import edu.uj.po.interfaces.Move;
 import edu.uj.po.interfaces.Position;
+
 import java.util.List;
-import MoveValidator.ValidatorFactory;
 
 public abstract class BasePiece implements Piece{
 
@@ -19,22 +19,22 @@ public abstract class BasePiece implements Piece{
     }
 
     @Override
-    public void SetPosition(Position position) {
+    public void setPosition(Position position) {
         currentPosition = position;
     }
     @Override
-    public Position GetPosition()
+    public Position getPosition()
     {
         return currentPosition;
     }
 
     @Override
-    public Color GetColor()
+    public Color getColor()
     {
         return pieceColor;
     }
 
 
     @Override
-    public abstract List<Move> GetLegalMoves(ValidatorFactory validator);
+    public abstract List<Move> getLegalMoves(ValidatorFactory validator);
 }

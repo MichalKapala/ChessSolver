@@ -1,20 +1,19 @@
 package MoveValidator;
 
-import Board.Board;
+import Board.IBoard;
 import Pieces.*;
 
 public class CheckValidatorFactory implements ValidatorFactory
 {
-    private Board board;
+    private final IBoard board;
 
-    public CheckValidatorFactory(Board board)
+    public CheckValidatorFactory(IBoard board)
     {
         this.board = board;
     }
 
-    // Validator will return moves needed to check if sombeody atacks the king
     @Override
-    public MoveValidator GetValidator(Piece piece) {
+    public MoveValidator getValidator(Piece piece) {
         if(piece instanceof King ||piece instanceof Queen || piece instanceof Bishop || piece instanceof Rook) {
             return new CheckingObstructionValidator( new CheckingFieldValidator(null, board), board);
         }else if(piece instanceof Pawn)

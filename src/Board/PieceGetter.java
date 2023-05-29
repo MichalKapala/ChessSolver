@@ -10,38 +10,50 @@ import java.util.List;
 
 public class PieceGetter {
 
-    private Board board;
+    private final IBoard board;
 
-    public PieceGetter(Board board)
+    public PieceGetter(IBoard board)
     {
         this.board = board;
     }
 
-    public List<Piece> GetAllPiecesByColor(Color color)
+    public List<Piece> getAllPiecesByColor(Color color)
     {
         List<Piece> colorPieces = new ArrayList<>();
-        List<Field> allFields = board.GetFields();
 
-        for(var field : allFields)
+        for(Field field : board.getFields())
         {
-            Piece piece = field.GetPiece();
-            if(piece != null && piece.GetColor() == color)
+            Piece piece = field.getPiece();
+            if(piece != null && piece.getColor() == color)
             {
-                colorPieces.add(field.GetPiece());
+                colorPieces.add(field.getPiece());
             }
         }
 
         return colorPieces;
     }
 
-    public Position GetKingPosition(Color color) {
-        List<Field> allFields = board.GetFields();
-        for(var field : allFields)
+    public Position getKingPosition(Color color) {
+        List<Field> allFields = board.getFields();
+        for(Field field : allFields)
         {
-            Piece piece = field.GetPiece();
-            if(piece != null && piece.GetColor() == color && piece instanceof King)
+            Piece piece = field.getPiece();
+            if(piece != null && piece.getColor() == color && piece instanceof King)
             {
-                return field.GetPosition();
+                return field.getPosition();
+            }
+        }
+        return null;
+    }
+
+    public Piece getKing(Color color) {
+        List<Field> allFields = board.getFields();
+        for(Field field : allFields)
+        {
+            Piece piece = field.getPiece();
+            if(piece != null && piece.getColor() == color && piece instanceof King)
+            {
+                return piece;
             }
         }
         return null;

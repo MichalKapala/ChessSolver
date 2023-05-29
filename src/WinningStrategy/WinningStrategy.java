@@ -1,7 +1,7 @@
 package WinningStrategy;
 
-import Board.Board;
+import Board.IBoard;
 
 public interface WinningStrategy {
-    public boolean CheckForWin(Board board);
+    public boolean checkForWin(IBoard board);
 }

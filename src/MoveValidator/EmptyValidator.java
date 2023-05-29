@@ -6,11 +6,4 @@ public class EmptyValidator extends MoveValidatorChain {
         super( nextValidator, null);
     }
 
-    public boolean validateMove(Move move) {
-        if (nextValidator != null) {
-            return nextValidator.validateMove(move);
-        }
-
-        return true;
-    }
 }

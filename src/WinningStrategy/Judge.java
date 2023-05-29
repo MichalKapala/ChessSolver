@@ -1,27 +1,33 @@
 package WinningStrategy;
 import Board.MovesObtainer;
-import Board.Board;
+import Board.IBoard;
 import MoveValidator.CheckValidatorFactory;
+import Pieces.Piece;
 import edu.uj.po.interfaces.Color;
 import edu.uj.po.interfaces.Position;
 import Board.PieceGetter;
 
 public class Judge {
-    private  Board board;
-    public Judge (Board board){
+    private final IBoard board;
+    public Judge (IBoard board){
         this.board = board;
     }
-    public boolean IsColorUnderCheck(Color color) {
-        Position kingPosition = new PieceGetter(board).GetKingPosition(color);
-        Color oppositeColor = color == Color.WHITE ? Color.BLACK : Color.WHITE;
-        MovesObtainer movesObtainer = new MovesObtainer(board, new CheckValidatorFactory(board));
+    public boolean isColorUnderCheck(Color color) {
+        Piece king = new PieceGetter(board).getKing(color);
 
-        for(var move : movesObtainer.GetMovesByColor(oppositeColor)){
-            if(move.finalPosition().equals(kingPosition)){
-                return true;
+        if(king != null) {
+            Position kingPosition = king.getPosition();
+            Color oppositeColor = color == Color.WHITE ? Color.BLACK : Color.WHITE;
+            MovesObtainer movesObtainer = new MovesObtainer(board, new CheckValidatorFactory(board));
+
+            for (var move : movesObtainer.getMovesByColor(oppositeColor)) {
+                if (move.finalPosition().equals(kingPosition)) {
+                    return true;
+                }
             }
         }
+            return false;
 
-        return false;
     }
+
 }

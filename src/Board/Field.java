@@ -12,21 +12,19 @@ public class Field {
         this.position = position;
     }
 
-    public void SetPiece(Piece piece)
+    public void setPiece(Piece piece)
     {
         currentPiece = piece;
-
         if(piece != null)
         {
-            currentPiece.SetPosition(position);
+            currentPiece.setPosition(position);
         }
-
     }
 
-    public Position GetPosition() {
+    public Position getPosition() {
         return position;
     }
-    public Piece GetPiece() {
+    public Piece getPiece() {
         return currentPiece;
     }
 

@@ -1,6 +1,4 @@
-package Utils;
-
-import Board.Board;
+import Board.IBoard;
 import Board.Field;
 import Pieces.Piece;
 import edu.uj.po.interfaces.ChessPiece;
@@ -11,19 +9,19 @@ import edu.uj.po.interfaces.ChessPieceAsUnicode;
 
 public class ChessBoardPrinter {
 
-    public static void printChessBoard(Board board) {
+    public static void printChessBoard(IBoard board) {
         System.out.println("   A  B  C  D  E  F  G  H");
         System.out.println("  +-----------------+");
 
         for (int i = 7; i >= 0; i--) {
             System.out.print((i + 1) + " | ");
             for (int j = 0; j < 8; j++) {
-                Field field = board.GetFieldByPosition(new Position(File.values()[j], Rank.values()[i]));
+                Field field = board.getFieldByPosition(new Position(File.values()[j], Rank.values()[i]));
 
-                if (field.GetPiece() == null) {
+                if (field.getPiece() == null) {
                     System.out.print(" ");
                 } else {
-                    System.out.print(ChessPieceAsUnicode.getSymbol(MapPiece(field.GetPiece()), field.GetPiece().GetColor()));
+                    System.out.print(ChessPieceAsUnicode.getSymbol(MapPiece(field.getPiece()), field.getPiece().getColor()));
                 }
                 System.out.print(" ");
             }

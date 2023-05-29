@@ -4,10 +4,10 @@ import Pieces.Pawn;
 import Pieces.Piece;
 import Utils.Vector2D;
 import edu.uj.po.interfaces.*;
-import Board.Board;
+import Board.IBoard;
 
 public class CheckingPawnWeirdMoves extends MoveValidatorChain {
-    public CheckingPawnWeirdMoves(MoveValidator nextValidator, Board board) {
+    public CheckingPawnWeirdMoves(MoveValidator nextValidator, IBoard board) {
         super(nextValidator, board);
     }
 
@@ -15,39 +15,28 @@ public class CheckingPawnWeirdMoves extends MoveValidatorChain {
 
         if (validateField(move) && nextValidator != null) {
             return nextValidator.validateMove(move);
-        } else if (validateField(move) && nextValidator == null) {
-            return true;
-        } else {
-            return false;
-        }
+        } else return validateField(move) && nextValidator == null;
     }
 
     private boolean validateField(Move move) {
-        Piece initialPiece = board.GetFieldByPosition(move.initialPosition()).GetPiece();
-        Piece finalPiece = board.GetFieldByPosition(move.finalPosition()).GetPiece();
-
+        Piece initialPiece = board.getFieldByPosition(move.initialPosition()).getPiece();
+        Piece finalPiece = board.getFieldByPosition(move.finalPosition()).getPiece();
         Vector2D moveVector = new Vector2D(move.initialPosition(), move.finalPosition()).getAbsVector();
 
         if(moveVector.x == 1 && moveVector.y == 1 )
         {
-            if(CheckEnPassant(move))
+            if(checkEnPassant(move))
             {
                 return true;
-            }else if(finalPiece == null || initialPiece.GetColor() == finalPiece.GetColor())
-            {
-                return false;
-            }
+            }else return finalPiece != null && initialPiece.getColor() != finalPiece.getColor();
 
 
         }else if(moveVector.x == 0 && moveVector.y == 2)
         {
-            if(initialPiece.GetColor() == Color.WHITE && initialPiece.GetPosition().rank() != Rank.SECOND ||
-               initialPiece.GetColor() == Color.BLACK && initialPiece.GetPosition().rank() != Rank.SEVENTH) {
+            if(initialPiece.getColor() == Color.WHITE && initialPiece.getPosition().rank() != Rank.SECOND ||
+               initialPiece.getColor() == Color.BLACK && initialPiece.getPosition().rank() != Rank.SEVENTH) {
                 return false;
-            }else if(finalPiece != null)
-            {
-                return false;
-            }
+            }else return finalPiece == null;
         }else if(moveVector.x == 0 && moveVector.y == 1)
         {
             return finalPiece == null;
@@ -57,24 +46,21 @@ public class CheckingPawnWeirdMoves extends MoveValidatorChain {
 
     }
 
-    private boolean CheckEnPassant(Move move)
+    private boolean checkEnPassant(Move move)
     {
             Vector2D moveVector = new Vector2D(move.initialPosition(), move.finalPosition());
             Position pawnPosition = move.initialPosition();
-            Color moveColor = board.GetFieldByPosition(move.initialPosition()).GetPiece().GetColor();
+            Color moveColor = board.getFieldByPosition(move.initialPosition()).getPiece().getColor();
 
             Position neighbourPosition = new Position(File.values()[pawnPosition.file().ordinal() + moveVector.x], pawnPosition.rank());
-            Piece neighbourPiece = board.GetFieldByPosition(neighbourPosition).GetPiece();
+            Piece neighbourPiece = board.getFieldByPosition(neighbourPosition).getPiece();
 
-            if(neighbourPiece != null && neighbourPiece instanceof Pawn && neighbourPiece.GetColor() != moveColor && !board.moveHistory.isEmpty())
+            if(neighbourPiece instanceof Pawn && neighbourPiece.getColor() != moveColor && !board.getMovesHistory().isEmpty())
             {
-                Move lastMove = board.moveHistory.get(board.moveHistory.size() - 1);
+                Move lastMove = board.getMovesHistory().getLastMove();
                 Vector2D lastMoveVector = new Vector2D(lastMove.initialPosition(), lastMove.finalPosition()).getAbsVector();
 
-                if(lastMove.finalPosition().equals(neighbourPosition) && lastMoveVector.y == 2)
-                {
-                    return true;
-                }
+                return lastMove.finalPosition().equals(neighbourPosition) && lastMoveVector.y == 2;
             }
 
         return false;

@@ -1,4 +1,3 @@
-import Utils.ChessBoardPrinter;
 import edu.uj.po.interfaces.*;
 
 public class TestMain {
@@ -133,6 +132,14 @@ public class TestMain {
 
     }
 
+    public static void setup16(ChessSolver solver) {
+        FenParser parser = new FenParser();
+        parser.parseFEN("k7/8/8/8/3p4/3K4/8/8", solver);
+        ChessBoardPrinter.printChessBoard(solver.board);
+
+    }
+
+
 
 
     public static void main(String[] args) {
@@ -229,6 +236,12 @@ public class TestMain {
         assert winningMove.equals(new Move(new Position(File.d, Rank.FIRST), new Position(File.h, Rank.FIFTH)));
         System.out.println("Winning move " + winningMove);
         solver.reset();
+
+//        setup16(solver);
+//        winningMove = solver.findStalemateInOneMove(Color.WHITE).get();
+//        assert winningMove.equals(new Move(new Position(File.d, Rank.FIRST), new Position(File.h, Rank.FIFTH)));
+//        System.out.println("Winning move " + winningMove);
+//        solver.reset();
     }
 
 }

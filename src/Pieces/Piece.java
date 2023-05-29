@@ -1,18 +1,18 @@
 package Pieces;
 
-import MoveValidator.MoveValidator;
+import MoveValidator.ValidatorFactory;
 import edu.uj.po.interfaces.Color;
 import edu.uj.po.interfaces.Move;
 import edu.uj.po.interfaces.Position;
-import MoveValidator.ValidatorFactory;
+
 import java.util.List;
 
 public interface Piece {
-    public void SetPosition(Position position);
+    public void setPosition(Position position);
 
-    public Position GetPosition();
-    public Color GetColor();
+    public Position getPosition();
+    public Color getColor();
 
-    public List<Move> GetLegalMoves(ValidatorFactory validator);
+    public List<Move> getLegalMoves(ValidatorFactory validator);
 
 }

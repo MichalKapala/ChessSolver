@@ -1,3 +1,4 @@
+import Board.IBoard;
 import Board.Board;
 import Game.GameController;
 import Pieces.PieceFactory;
@@ -8,7 +9,7 @@ import edu.uj.po.interfaces.*;
 import java.util.Optional;
 
 public class ChessSolver implements Solver, Setup {
-    public Board board;
+    public IBoard board;
     private GameController controller;
 
     public ChessSolver()
@@ -18,13 +19,13 @@ public class ChessSolver implements Solver, Setup {
     @Override
     public Optional<Move> findMateInOneMove(Color color) {
         controller = new GameController(board);
-        return Optional.ofNullable(controller.GetWinningMove(color, new CheckMateWinning(color)));
+        return Optional.ofNullable(controller.getWinningMove(color, new CheckMateWinning(color)));
     }
 
     @Override
     public Optional<Move> findStalemateInOneMove(Color color) {
         controller = new GameController(board);
-        return Optional.ofNullable(controller.GetWinningMove(color, new StaleMateWinning(color)));
+        return Optional.ofNullable(controller.getWinningMove(color, new StaleMateWinning(color)));
 
     }
 
@@ -36,6 +37,6 @@ public class ChessSolver implements Solver, Setup {
 
     @Override
     public void addChessPiece(Position position, Color color, ChessPiece piece) {
-        board.GetFieldByPosition(position).SetPiece(PieceFactory.CreatePiece(piece, position,color));
+        board.getFieldByPosition(position).setPiece(PieceFactory.CreatePiece(piece, position,color));
     }
 }

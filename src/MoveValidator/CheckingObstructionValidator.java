@@ -1,6 +1,6 @@
 package MoveValidator;
 
-import Board.Board;
+import Board.IBoard;
 import Utils.Vector2D;
 import edu.uj.po.interfaces.File;
 import edu.uj.po.interfaces.Move;
@@ -10,18 +10,14 @@ import edu.uj.po.interfaces.Rank;
 public class CheckingObstructionValidator extends MoveValidatorChain {
 
 
-    public CheckingObstructionValidator(MoveValidator nextValidator, Board board) {
+    public CheckingObstructionValidator(MoveValidator nextValidator, IBoard board) {
         super(nextValidator, board);
     }
 
     public boolean validateMove(Move move) {
         if (validateObstruction(move) && nextValidator != null) {
             return nextValidator.validateMove(move);
-        } else if (validateObstruction(move) && nextValidator == null) {
-            return true;
-        } else {
-            return false;
-        }
+        } else return validateObstruction(move) && nextValidator == null;
     }
 
     private boolean validateObstruction(Move move) {
@@ -33,7 +29,7 @@ public class CheckingObstructionValidator extends MoveValidatorChain {
 
         while((currentPosition.file() != finalPosition.file() ) || (currentPosition.rank() != finalPosition.rank())) {
 
-            if (board.GetFieldByPosition(currentPosition).GetPiece() != null) {
+            if (board.getFieldByPosition(currentPosition).getPiece() != null) {
                 return false;
             }
             currentPosition = obtainPositionMovedByVector(currentPosition, moveVector);
